@@ -1,0 +1,22 @@
+{
+  "name": "catalogo-filmes-api",
+  "version": "1.0.0",
+  "description": "API RESTful para catálogo de filmes - AV1 Desenvolvimento de Websites",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "api",
+    "filmes",
+    "express",
+    "node.js"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
