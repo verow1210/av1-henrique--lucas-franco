@@ -1,22 +1,20 @@
 {
-  "name": "catalogo-filmes-api",
+  "name": "catalogo-jogos-api",
   "version": "1.0.0",
-  "description": "API RESTful para catálogo de filmes - AV1 Desenvolvimento de Websites",
-  "main": "server.js",
+  "description": "API REST de um catalogo de jogos para avaliacao AV1 e AV2",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
   },
-  "keywords": [
-    "api",
-    "filmes",
-    "express",
-    "node.js"
-  ],
+  "keywords": ["api", "jogos", "express", "jwt"],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "uuid": "^9.0.0"
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "swagger-ui-express": "^5.0.1"
   }
 }

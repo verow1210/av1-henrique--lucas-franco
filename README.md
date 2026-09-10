@@ -1,135 +1,82 @@
-# 🎬 Catálogo de Filmes - API RESTful
+# Catalogo de Jogos API
 
-Projeto de API RESTful desenvolvido com **Node.js** e **Express** para gerenciar um catálogo de filmes/séries. Ideal para avaliação acadêmica de Desenvolvimento de Websites.
+## Objetivo
 
----
+Esta e uma API REST simples para cadastrar e consultar jogos. Os dados ficam em listas de objetos JavaScript e permanecem disponiveis enquanto o servidor estiver rodando. Nao ha banco de dados.
 
-## 📦 Estrutura do Projeto
+## Tecnologias
 
-```
-catalogo-filmes-api/
-├── package.json              # Dependências e scripts do projeto
-├── server.js                 # Servidor Express com todas as rotas CRUD
-├── GUIA_DE_TESTES.md        # Guia completo de testes (Insomnia/Postman)
-└── README.md                 # Este arquivo
-```
+- Node.js e Express
+- JavaScript
+- bcrypt para proteger senhas
+- JWT para autenticacao
+- Multer para upload de imagens
+- Swagger para documentacao
 
----
+## Instalacao e execucao
 
-## 🚀 Quick Start
-
-### 1. Instalar Dependências
+No terminal, dentro da pasta do projeto:
 
 ```bash
 npm install
-```
-
-### 2. Iniciar o Servidor
-
-```bash
 npm start
 ```
 
-O servidor iniciará em: **http://localhost:3000**
+O servidor roda em `http://localhost:3000` e a documentacao fica em `http://localhost:3000/api-docs`.
 
----
+## Rotas
 
-## 📚 Endpoints Disponíveis
+| Metodo | Caminho | Autenticacao | Funcao |
+| --- | --- | --- | --- |
+| GET | `/` | Nao | Verifica se a API esta funcionando |
+| POST | `/usuarios` | Nao | Cadastra usuario |
+| POST | `/usuarios/login` | Nao | Faz login e retorna token JWT |
+| POST | `/jogos` | Sim | Cadastra jogo |
+| GET | `/jogos` | Sim | Lista jogos |
+| GET | `/jogos/:id` | Sim | Busca jogo por ID |
+| PUT | `/jogos/:id` | Sim | Edita jogo |
+| DELETE | `/jogos/:id` | Sim | Exclui jogo |
+| POST | `/upload` | Sim | Envia imagem no campo `imagem` |
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `POST` | `/filmes` | Criar novo filme |
-| `GET` | `/filmes` | Listar todos os filmes |
-| `GET` | `/filmes/:id` | Buscar filme por ID |
-| `PUT` | `/filmes/:id` | Atualizar filme |
-| `DELETE` | `/filmes/:id` | Deletar filme |
+## Como fazer login
 
----
+Primeiro cadastre um usuario em `POST /usuarios`:
 
-## 💻 Exemplo de Uso
-
-### Criar um Filme
-
-```bash
-curl -X POST http://localhost:3000/filmes \
-  -H "Content-Type: application/json" \
-  -d '{
-    "titulo": "Avatar",
-    "diretor": "James Cameron",
-    "ano": 2009,
-    "genero": "Ficção Científica"
-  }'
+```json
+{
+  "nome": "Ana Silva",
+  "email": "ana@email.com",
+  "senha": "123456"
+}
 ```
 
-### Listar Todos os Filmes
+Depois envie o mesmo email e senha para `POST /usuarios/login`. Copie o valor de `token` da resposta. Para acessar as rotas protegidas, envie este cabecalho:
 
-```bash
-curl http://localhost:3000/filmes
+```text
+Authorization: Bearer SEU_TOKEN_AQUI
 ```
 
----
+## Exemplos de jogos
 
-## ✨ Características
+Em `POST /jogos`, usando `application/json`:
 
-- ✅ CRUD completo (Create, Read, Update, Delete)
-- ✅ Validação de campos obrigatórios
-- ✅ IDs únicos gerados automaticamente (UUID v4)
-- ✅ Banco de dados em memória (sem dependências externas)
-- ✅ Códigos HTTP corretos (200, 201, 400, 404)
-- ✅ Respostas em formato JSON
-- ✅ Código bem comentado e estruturado
-- ✅ 3 filmes pré-carregados na inicialização
+```json
+{
+  "nome": "Hades",
+  "genero": "Roguelike",
+  "plataforma": "PC",
+  "ano": 2020
+}
+```
 
----
+## Upload
 
-## 🧪 Testes
+Use `POST /upload` com o tipo `Multipart Form` no Insomnia. Adicione um campo do tipo arquivo chamado exatamente `imagem` e selecione um arquivo JPG, JPEG, PNG ou WEBP de ate 2 MB.
 
-Para testar a API, use **Insomnia** ou **Postman**. Consulte o arquivo **GUIA_DE_TESTES.md** para exemplos detalhados de todas as requisições.
+## Swagger
 
----
+Abra `http://localhost:3000/api-docs` no navegador. Na documentacao, use o botao **Authorize**, informe apenas `SEU_TOKEN_AQUI` no campo Bearer e execute as rotas protegidas.
 
-## 📋 Requisitos Técnicos Atendidos
+## Observacao
 
-- [x] Servidor Node.js + Express
-- [x] Middleware `express.json()`
-- [x] IDs automáticos e únicos (uuid)
-- [x] Respostas JSON com status HTTP corretos
-- [x] Validação de campos obrigatórios
-- [x] Banco de dados em memória
-- [x] Todas as 5 rotas CRUD implementadas
-
----
-
-## 📝 Dependências
-
-- **express** ^4.18.2 - Framework web para Node.js
-- **uuid** ^9.0.0 - Geração de IDs únicos
-
----
-
-## 🔍 Dados Iniciais
-
-O servidor inicia com 3 filmes pré-carregados:
-
-1. **Inception** - Christopher Nolan (2010) - Ficção Científica
-2. **Interestelar** - Christopher Nolan (2014) - Ficção Científica
-3. **O Poderoso Chefão** - Francis Ford Coppola (1972) - Drama
-
----
-
-## ⚠️ Nota Importante
-
-Os dados são armazenados **em memória**, portanto são **perdidos** ao reiniciar o servidor. Isso é proposital conforme os requisitos da AV1 (sem uso de banco de dados externo).
-
----
-
-## 📞 Suporte
-
-Verifique o arquivo **GUIA_DE_TESTES.md** para:
-- Exemplos detalhados de cada endpoint
-- Passo a passo para testar no Insomnia/Postman
-- Respostas esperadas para cada requisição
-
----
-
-**Desenvolvido para: AV1 - Desenvolvimento de Websites**
+Como os dados ficam em memoria, usuarios e jogos sao perdidos quando o servidor e encerrado ou reiniciado.
