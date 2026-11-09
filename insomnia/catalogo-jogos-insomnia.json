@@ -1,0 +1,156 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-09T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v10",
+  "resources": [
+    {
+      "_id": "wrk_catalogo",
+      "parentId": null,
+      "name": "Catálogo de Jogos - AV1",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "env_catalogo",
+      "parentId": "wrk_catalogo",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "token": "COLE_SEU_TOKEN_AQUI"
+      },
+      "_type": "environment"
+    },
+    {
+      "_id": "req_health",
+      "parentId": "wrk_catalogo",
+      "name": "Saúde da API",
+      "method": "GET",
+      "url": "{{ _.base_url }}/",
+      "headers": [],
+      "_type": "request"
+    },
+    {
+      "_id": "req_reg",
+      "parentId": "wrk_catalogo",
+      "name": "Cadastrar usuário",
+      "method": "POST",
+      "url": "{{ _.base_url }}/usuarios",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Lucas\",\n  \"email\": \"lucas@email.com\",\n  \"senha\": \"123456\"\n}"
+      }
+    },
+    {
+      "_id": "req_login",
+      "parentId": "wrk_catalogo",
+      "name": "Login",
+      "method": "POST",
+      "url": "{{ _.base_url }}/usuarios/login",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "_type": "request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"lucas@email.com\",\n  \"senha\": \"123456\"\n}"
+      }
+    },
+    {
+      "_id": "req_list",
+      "parentId": "wrk_catalogo",
+      "name": "Listar jogos",
+      "method": "GET",
+      "url": "{{ _.base_url }}/jogos",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_create",
+      "parentId": "wrk_catalogo",
+      "name": "Cadastrar jogo",
+      "method": "POST",
+      "url": "{{ _.base_url }}/jogos",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "_type": "request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Minecraft\",\n  \"genero\": \"Aventura\",\n  \"plataforma\": \"PC\",\n  \"ano\": 2011\n}"
+      }
+    },
+    {
+      "_id": "req_get",
+      "parentId": "wrk_catalogo",
+      "name": "Consultar jogo por ID",
+      "method": "GET",
+      "url": "{{ _.base_url }}/jogos/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "_type": "request"
+    },
+    {
+      "_id": "req_update",
+      "parentId": "wrk_catalogo",
+      "name": "Editar jogo",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/jogos/1",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "_type": "request",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"Minecraft atualizado\",\n  \"genero\": \"Aventura\",\n  \"plataforma\": \"PC\",\n  \"ano\": 2011\n}"
+      }
+    },
+    {
+      "_id": "req_delete",
+      "parentId": "wrk_catalogo",
+      "name": "Excluir jogo",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/jogos/1",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {{ _.token }}"
+        }
+      ],
+      "_type": "request"
+    }
+  ]
+}

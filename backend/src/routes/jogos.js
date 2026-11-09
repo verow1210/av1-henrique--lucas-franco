@@ -1,0 +1,1 @@
+const r=require('express').Router();const auth=require('../middlewares/auth');const c=require('../controllers/jogosController');r.use(auth);r.get('/',c.listar);r.get('/:id',c.buscar);r.post('/',c.criar);r.put('/:id',c.atualizar);r.patch('/:id',c.atualizar);r.delete('/:id',c.excluir);module.exports=r;

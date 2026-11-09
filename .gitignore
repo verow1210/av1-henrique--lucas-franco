@@ -2,3 +2,5 @@ node_modules/
 src/uploads/*
 !src/uploads/.gitkeep
 .env
+backend/database.sqlite
+frontend/dist/

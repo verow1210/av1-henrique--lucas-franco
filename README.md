@@ -1,82 +1,57 @@
-# Catalogo de Jogos API
+# Catálogo de Jogos — AV1 e AV2
 
-## Objetivo
+Projeto acadêmico com API Node.js/Express, arquitetura MVC, Sequelize + SQLite, autenticação JWT e interface React.
 
-Esta e uma API REST simples para cadastrar e consultar jogos. Os dados ficam em listas de objetos JavaScript e permanecem disponiveis enquanto o servidor estiver rodando. Nao ha banco de dados.
+## Requisitos
+Instale Node.js LTS. **Não precisa de XAMPP**: o banco é SQLite.
 
-## Tecnologias
+## Backend
+1. Abra um terminal na pasta `backend`.
+2. Execute `npm install`.
+3. Copie `.env.example` para `.env` (PowerShell: `Copy-Item .env.example .env`).
+4. Abra `.env` e troque `JWT_SECRET` por uma chave própria.
+5. Execute `npm run dev`. A API estará em `http://localhost:3000`.
+6. O arquivo `backend/database.sqlite` será criado automaticamente.
 
-- Node.js e Express
-- JavaScript
-- bcrypt para proteger senhas
-- JWT para autenticacao
-- Multer para upload de imagens
-- Swagger para documentacao
+## Frontend
+1. Abra outro terminal na pasta `frontend`.
+2. Execute `npm install`.
+3. Opcional: copie `.env.example` para `.env`.
+4. Execute `npm run dev`.
+5. Abra o endereço mostrado pelo Vite, normalmente `http://localhost:5173`.
 
-## Instalacao e execucao
-
-No terminal, dentro da pasta do projeto:
-
-```bash
-npm install
-npm start
-```
-
-O servidor roda em `http://localhost:3000` e a documentacao fica em `http://localhost:3000/api-docs`.
+## Demonstração sugerida
+1. Cadastre uma conta com nome, email e senha de pelo menos 6 caracteres.
+2. Faça login.
+3. Cadastre um jogo, edite-o e exclua-o.
+4. Faça logout.
+5. Teste uma rota `/jogos` sem token no Insomnia: deve retornar 401.
+6. Reinicie o backend e confira que os jogos continuam salvos no SQLite.
 
 ## Rotas
+| Método | Rota | Autenticação | Função |
+|---|---|---|---|
+| GET | `/` | Não | Saúde da API |
+| POST | `/usuarios` | Não | Cadastro |
+| POST | `/usuarios/login` | Não | Login/JWT |
+| GET | `/jogos` | Bearer | Listar (aceita `?busca=nome`) |
+| GET | `/jogos/:id` | Bearer | Consultar |
+| POST | `/jogos` | Bearer | Cadastrar |
+| PUT/PATCH | `/jogos/:id` | Bearer | Atualizar |
+| DELETE | `/jogos/:id` | Bearer | Excluir |
 
-| Metodo | Caminho | Autenticacao | Funcao |
-| --- | --- | --- | --- |
-| GET | `/` | Nao | Verifica se a API esta funcionando |
-| POST | `/usuarios` | Nao | Cadastra usuario |
-| POST | `/usuarios/login` | Nao | Faz login e retorna token JWT |
-| POST | `/jogos` | Sim | Cadastra jogo |
-| GET | `/jogos` | Sim | Lista jogos |
-| GET | `/jogos/:id` | Sim | Busca jogo por ID |
-| PUT | `/jogos/:id` | Sim | Edita jogo |
-| DELETE | `/jogos/:id` | Sim | Exclui jogo |
-| POST | `/upload` | Sim | Envia imagem no campo `imagem` |
+Exemplo de usuário: `{"nome":"Lucas","email":"lucas@email.com","senha":"123456"}`.
+Exemplo de jogo: `{"nome":"Minecraft","genero":"Aventura","plataforma":"PC","ano":2011,"descricao":"Exploração e construção."}`.
 
-## Como fazer login
+## MVC
+- Models: `backend/src/models`.
+- Controllers: `backend/src/controllers`.
+- Routes: `backend/src/routes`.
+- Middlewares: autenticação e erros.
+- Config: conexão Sequelize/SQLite.
 
-Primeiro cadastre um usuario em `POST /usuarios`:
+## Insomnia
+Importe `insomnia/catalogo-jogos-insomnia.json` em Import > From File. Cadastre o usuário, faça login e copie o token da resposta para a variável `token` do ambiente.
 
-```json
-{
-  "nome": "Ana Silva",
-  "email": "ana@email.com",
-  "senha": "123456"
-}
-```
-
-Depois envie o mesmo email e senha para `POST /usuarios/login`. Copie o valor de `token` da resposta. Para acessar as rotas protegidas, envie este cabecalho:
-
-```text
-Authorization: Bearer SEU_TOKEN_AQUI
-```
-
-## Exemplos de jogos
-
-Em `POST /jogos`, usando `application/json`:
-
-```json
-{
-  "nome": "Hades",
-  "genero": "Roguelike",
-  "plataforma": "PC",
-  "ano": 2020
-}
-```
-
-## Upload
-
-Use `POST /upload` com o tipo `Multipart Form` no Insomnia. Adicione um campo do tipo arquivo chamado exatamente `imagem` e selecione um arquivo JPG, JPEG, PNG ou WEBP de ate 2 MB.
-
-## Swagger
-
-Abra `http://localhost:3000/api-docs` no navegador. Na documentacao, use o botao **Authorize**, informe apenas `SEU_TOKEN_AQUI` no campo Bearer e execute as rotas protegidas.
-
-## Observacao
-
-Como os dados ficam em memoria, usuarios e jogos sao perdidos quando o servidor e encerrado ou reiniciado.
+## Segurança e limitações
+Senhas são armazenadas com hash bcryptjs. JWT expira em 2 horas por padrão. Não publique `.env` nem `database.sqlite`. O pacote foi montado com base nos arquivos enviados, mas a instalação e execução precisam ser verificadas no computador em que será apresentado.

@@ -1,0 +1,10 @@
+require('dotenv').config();
+const express=require('express'),cors=require('cors'),sequelize=require('./config/database');
+const app=express();
+if(!process.env.JWT_SECRET)process.env.JWT_SECRET='chave-local-de-desenvolvimento-altere';
+app.use(cors({origin:process.env.FRONTEND_URL||'http://localhost:5173'}));app.use(express.json());
+app.get('/',(req,res)=>res.json({mensagem:'API Catálogo de Jogos funcionando.',status:'ok'}));
+app.use('/usuarios',require('./routes/usuarios'));app.use('/jogos',require('./routes/jogos'));app.use(require('./middlewares/erros'));
+const PORT=process.env.PORT||3000;
+if(require.main===module)sequelize.sync().then(()=>app.listen(PORT,()=>console.log(`API em http://localhost:${PORT}`))).catch(e=>{console.error(e);process.exit(1);});
+module.exports=app;
